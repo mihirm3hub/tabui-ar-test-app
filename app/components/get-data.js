@@ -152,9 +152,8 @@ const getDataComponent = {
             shadow
           > 
             <a-image material="shader: flat; src: #test-image; alphaTest:0.03; side:double; transparent:true;" position="0 0 -0.01" width="5.55" height="2.25"></a-image>
-            <a-rounded position="-2.29 -0.78 0.02" scale="2.15 1.96 1" material="shader: flat; alphaTest:0.5; src: url(${
-              data[i].url_img
-            })" crossorigin="Anonymous" width="0.8" height="0.8" radius="0.28" opacity="1"></a-rounded>
+            <a-rounded position="-2.29 -0.78 0.02" scale="2.15 1.96 1" material="shader: flat; alphaTest:0.5; src: url(${data[i].url_img
+          })" crossorigin="Anonymous" width="0.8" height="0.8" radius="0.28" opacity="1"></a-rounded>
             <a-entity text="value:${location}; color:#3B3A4C; anchor:align; letterSpacing:-2.5; wrapCount:18; zOffset:0.020; shader: msdf; font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/karla/Karla-Bold.json;" position="-0.45 -0.1 0" scale="2.5 2.5 2.5"></a-entity>     
             <a-text id="${data[i].name}-distance" value="${data[
             i
@@ -193,7 +192,7 @@ const getDataComponent = {
 
             popupCta.addEventListener("click", () => {
               window.location = data[index].url;
-              console.log(data[index].url)
+              // console.log(data[index].url)
             });
           });
         });
