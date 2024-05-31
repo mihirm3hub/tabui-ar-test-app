@@ -10,7 +10,7 @@ const getDataComponent = {
 
     if (navigator.geolocation) {
       // Geolocation API is supported
-      const watchId = navigator.geolocation.watchPosition(
+      navigator.geolocation.watchPosition(
         (position) => {
           // This function will be called whenever the position changes
           const { latitude } = position.coords;
@@ -72,9 +72,9 @@ const getDataComponent = {
         this.map.setAttribute("radius", `${radius}`);
 
         // create title and sub-title
-        const [location, city] = data[i].name.split("-");
+        const [location] = data[i].name.split("-");
         // console.log(location, city)
-        const cityName = city !== undefined ? city : "NA";
+
         // calculate dynamic scale based on distance
         // dynamic scaling
         const scaleVal = (data[i].distance * 100).toFixed(1);
@@ -174,3 +174,4 @@ const getDataComponent = {
   },
 };
 export { getDataComponent };
+

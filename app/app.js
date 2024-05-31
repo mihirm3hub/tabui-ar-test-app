@@ -3,7 +3,7 @@
 // app.js is the main entry point for your 8th Wall app. Code here will execute after head.html
 // is loaded, and before body.html is loaded.
 
-import { compassComponent } from '././components/compass.js'
+import { compassComponent } from './components/compass.js'
 AFRAME.registerComponent('compass', compassComponent)
 // Check Location Permissions at beginning of session
 const errorCallback = (error) => {
@@ -11,7 +11,9 @@ const errorCallback = (error) => {
     alert('LOCATION PERMISSIONS DENIED. PLEASE ALLOW AND TRY AGAIN.')
   }
 }
-navigator.geolocation.getCurrentPosition((pos) => { }, errorCallback)
+navigator.geolocation.getCurrentPosition((pos) => {
+  // intentionally empty. Awaiting implementation of position handling.
+}, errorCallback)
 
 import { handleScreenUIComponent } from "././components/handle-ui.js";
 AFRAME.registerComponent("handle-ui", handleScreenUIComponent);
@@ -88,7 +90,6 @@ AFRAME.registerComponent('rounded', {
     }
     this.rounded.material.opacity = this.data.opacity
   },
-  tick() { },
   remove() {
     if (!this.rounded) {
       return
@@ -169,8 +170,6 @@ AFRAME.registerComponent('rounded', {
     )
     return new THREE.ShapeBufferGeometry(roundedRectShape)
   },
-  pause() { },
-  play() { },
 })
 
 AFRAME.registerPrimitive('a-rounded', {
