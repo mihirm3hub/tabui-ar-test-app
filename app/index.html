@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="icon"
+      href="https://cdn.glitch.global/733b9e40-d7df-4fec-8d37-b209c141c031/TabUi-favicon.ico"
+    />
+
+    <title>TabUI-WebAR</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.8thwall.com/web/aframe/8frame-1.4.1.min.js"></script>
+    <script src="https://cdn.8thwall.com/web/xrextras/xrextras.js"></script>
+    <script src="https://cdn.8thwall.com/web/landing-page/landing-page.js"></script>
+    <script src="//cdn.8thwall.com/web/aframe/aframe-extras-6.1.1.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+
+    <meta name="8thwall:renderer" content="aframe:1.4.1" />
+    <meta name="8thwall:package" content="@8thwall.xrextras" />
+    <meta name="8thwall:package" content="@8thwall.landing-page" />
+
+    <meta
+      name="8thwall:dependencies"
+      content="eyJhcHBLZXkiOiI3ckl5bVZTM1VMekZ5ZVlLeFRIdURJQXZTVGtmZnM4ZW9iajh2b1BENHhuRjQ0Rjd5T0pZbGYzbm9lalBBcDhoSXppT2p5IiwiZGVwZW5kZW5jaWVzIjpbeyJtb2R1bGVJZCI6ImFhZjk2ZDI5LTA0YTYtNDlhYy1iMTliLTQ4OGM1YTk0Nzg1MSIsImFsaWFzIjoibGlnaHRzaGlwLW1hcHMiLCJjb25maWciOnt9fV19"
+    />
+    
+    <script
+      async
+      src="//apps.8thwall.com/xrweb?appKey=7rIymVS3ULzFyeYKxTHuDIAvSTkffs8eobj8voPD4xnF44F7yOJYlf3noejPAp8hIziOjy"
+    ></script>
+
+    
+    <script
+      crossorigin="anonymous"
+      src="https://cdn.8thwall.com/web/hosting/modules8-llffcbe7.js"
+    ></script>
+
+    <script
+      crossorigin="anonymous"
+      src="https://static.8thwall.app/modules/v1/aaf96d29-04a6-49ac-b19b-488c5a947851/version/major/1/module.js?s=3bd9d7cd-bed8-4db3-8e58-ac4ee5c75bad"
+    ></script>
+
+    <script>
+      // Reference your modules using the following variables
+      const lightshipMaps = window.Modules8.getModule({
+        moduleId: "aaf96d29-04a6-49ac-b19b-488c5a947851",
+      });
+    </script>
+
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="./style.css" />
+
+    <!-- import the webpage's javascript file -->
+    <script type="module" src="./app.js"></script>
+    <!--     <script src="/script.js" defer></script> -->
+  </head>
+  <body>
+    <!-- Splash Screen -->
+    <div id="gradient" class="absolute-fill">
+      <div id="splashContent">
+        <img
+          id="logo-svg"
+          src="https://cdn.glitch.global/8ae63d15-3d0c-4bfd-b44d-6bca726f4d53/logo_splash.png?v=1717157908050"
+        />
+      </div>
+      <!-- spinner loader -->
+      <div
+        style="
+          position: absolute;
+          z-index: 2;
+          top: 75%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        "
+      >
+        <div class="spinner"></div>
+      </div>
+      <!-- iOS prompt box -->
+      <div class="btn" style="display: none">
+        <img
+          id="startBtn"
+          style="width: 300px; height: 200px"
+          src="https://cdn.glitch.global/733b9e40-d7df-4fec-8d37-b209c141c031/Alert.svg?v=1717137711473"
+        />
+      </div>
+    </div>
+    <!-- compass -->
+    <div class="compass">
+      <div class="compass-circle"></div>
+    </div>
+    <!-- popup -->
+    <div id="tab-popup" style="display:none;">
+      <img id="closeBtn" src="https://cdn.glitch.global/733b9e40-d7df-4fec-8d37-b209c141c031/Button-X.svg?v=1716381458336"/>
+      <div id="popup-content-box">
+        <img id="popup-content-image" style="width: 100%; border-radius: 35px;" src="https://cdn.glitch.global/733b9e40-d7df-4fec-8d37-b209c141c031/image%201%20(1).png?v=1717062347528"/>
+        <div id="popup-content-titlebar">
+          <div id="pop-title" style="font-weight: 600; font-size: 18px; line-height: 20px;color: #3B3A4C;">Belvedere</div>
+          <div id="pop-distance">
+            <span id="pop-dist">2 km</span>       
+            <img style="width:10px" src="https://cdn.glitch.global/733b9e40-d7df-4fec-8d37-b209c141c031/Vector.svg?v=1717062871273"/>
+          </div>
+        </div>
+        <div id="popup-content-desc">
+          Lorem ipsum dolor sit amet, consectetur</br>
+          adipiscing elit, sed do eiusmod tempor</br>
+          incididunt ut labore dolore magna aliqua...</br>
+        </div>
+        <div id="popup-content-cta" class="clickable">Vai alla scheda</div>
+<!--         <img id="popup-content-cta" src="https://cdn.glitch.global/733b9e40-d7df-4fec-8d37-b209c141c031/Group%2016%20(1).png?v=1716381418701"/> -->
+      </div>
+    </div>
+    <!-- <video id="videoElement" autoplay muted playsinline crossorigin="anonymous"></video> -->
+    <!-- AR Scene -->
+    <a-scene
+      renderer="color-management:true; antialias:auto;"
+      get-data
+      handle-ui
+      xrweb="disableWorldTracking: true; allowedDevices:any"
+    >
+      <a-assets>
+        <img
+          id="test-image"
+          src="https://cdn.glitch.global/733b9e40-d7df-4fec-8d37-b209c141c031/tab%201.png?v=1710831981277"
+          crossorigin="anonymous"
+        />
+        <img
+          id="icon-image"
+          src="https://cdn.glitch.global/733b9e40-d7df-4fec-8d37-b209c141c031/Vector%403xRed.png?v=1708338643842"
+          crossorigin="anonymous"
+        />
+      </a-assets>
+
+      <a-entity
+        light="type: directional; intensity: 0.25; target: #m;"
+        position="25 10 0"
+      ></a-entity>
+      <a-entity
+        light="type: directional; intensity: 0.25; target: #m;"
+        position="0 10 25"
+      ></a-entity>
+      <a-entity
+        light="type: directional; intensity: 0.25; target: #m;"
+        position="-25 10 0"
+      ></a-entity>
+      <a-entity
+        light="type: directional; intensity: 0.25; target: #m;"
+        position="0 10 -25"
+      ></a-entity>
+      <a-light type="ambient" intensity="0.8"></a-light>
+
+      <a-camera
+        id="camera"
+        near="1"
+        far="5000"
+        position="0 0 0"
+        raycaster="objects: .cantap"
+        cursor="fuse: false; rayOrigin: mouse;"
+      >
+      </a-camera>
+
+      <a-sky
+        radius="100"
+        material="shader: lightship-map-sky-gradient"
+        visible="false"
+      ></a-sky>
+      <!-- create map for adding POI -->
+      <!-- add lightship-map-theme="" attribute to view map -->
+      <lightship-map
+        id="m"
+        land-material=""
+        building-material=""
+        park-material=""
+        parking-material=""
+        road-material=""
+        sand-material=""
+        transit-material=""
+        water-material=""
+        scale="1000 1000 1000"
+        radius="1500"
+        compass
+      >
+        <a-cone
+          rotation="-90 0 0"
+          material="color: #C724B1; metalness: .7; roughness: .3"
+          height=".02"
+          radius-top="0"
+          radius-bottom=".005"
+          visible="false"
+          lightship-map-motion-direction
+        >
+        </a-cone>
+      </lightship-map>
+    </a-scene>
+    
+    <iframe
+      id="mapScene"
+      allow="gyroscope;accelerometer;magnetometer;xr-spatial-tracking;geolocation;"
+      src="https://tabuiapp.8thwall.app/inline-ar-map/"
+    >
+    </iframe>
+    <div id="unclick-overlay"></div>
+  </body>
+</html>

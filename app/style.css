@@ -1,0 +1,203 @@
+/* a minimalist set of CSS resets */
+@keyframes gradient-move {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+#videoElement {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -100;
+  /* Setting width & height to auto prevents the browser from stretching or squishing the video */
+  width: auto;
+  height: auto;
+}
+
+.clickable:active {
+  transform: scale(0.90);
+}
+
+.compass {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background: url("https://cdn.glitch.global/733b9e40-d7df-4fec-8d37-b209c141c031/compass.png?v=1709708201454")
+    center no-repeat;
+  background-size: cover;
+  z-index: 1;
+}
+
+#gradient {
+  z-index: 9;
+  background: white;
+}
+
+#splashContent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#top-svg {
+  align-self: flex-end;
+}
+
+#logo-svg {
+  align-self: center;
+  width: 45vw;
+}
+
+#bot-svg {
+  align-self: center;
+  width: 100%;
+}
+
+.absolute-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+.spinner {
+  width: 3rem;
+  height: 3rem;
+  border-top: 3px solid rgba(189, 22, 34, 1);
+  border-right: 3px solid transparent;
+  border-radius: 50%;
+  animation: rotation 0.8s linear infinite;
+}
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.fade-in {
+  animation: fade-in 0.25s linear forwards;
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.fade-out {
+  animation: fade-out 0.25s linear forwards;
+}
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#mapScene {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 50vw;
+  width: 100vw;
+  border-radius: 125vw 125vw 0 0;
+  border: none;
+  /*   border: 2px solid #EEF1F6; */
+  filter: drop-shadow(0rem -0.1rem 0.5rem rgba(0, 0, 0, 0.5));
+  border-bottom: none;
+  overflow: hidden;
+  z-index: 2;
+  background-color: white;
+}
+
+#unclick-overlay {
+  width: 100%;
+  height: 30%;
+  z-index: 2;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#tab-popup {
+  /* background: white; */
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Lexend", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+#closeBtn {
+  width: 30px;
+  height: 30px;
+  align-self: flex-end;
+}
+
+#popup-content-box {
+  background-color: #e4e3e5;
+  border-radius: 45px;
+  margin: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#popup-content-titlebar {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px;
+  margin-bottom: 5px;
+}
+
+#popup-content-desc {
+  margin: 15px;
+  margin-top: 0px;
+}
+
+#popup-content-cta {
+  margin: 15px;
+  border-radius: 10px;
+  background: #352460;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: 75vw;
+}
