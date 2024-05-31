@@ -5,37 +5,9 @@ const getDataComponent = {
   init() {
     this.array = [];
     this.distArray = [];
-    this.scaleArray = [];
-    this.sceneAssets = document.querySelector("a-assets");
+
     this.map = document.querySelector("lightship-map");
-    this.isPlaying = true;
-    this.isCreated = false;
 
-    if (!this.isPlaying) {
-      const video = document.querySelector("video");
-      const constraints = {
-        audio: false,
-        video: {
-          facingMode: "environment",
-        },
-      };
-
-      let streamStarted = false;
-      const handleStream = (stream) => {
-        video.srcObject = stream;
-        streamStarted = true;
-      };
-      navigator.mediaDevices.getUserMedia(constraints).then(
-        (stream) => handleStream(stream),
-        (err) => console.log(err)
-      );
-      console.log("clicked", streamStarted);
-      if (streamStarted) {
-        video.play();
-        this.isPlaying = true;
-      }
-    }
-    // console.log(this.map)
     if (navigator.geolocation) {
       // Geolocation API is supported
       const watchId = navigator.geolocation.watchPosition(
@@ -75,7 +47,7 @@ const getDataComponent = {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("API response:", data);
+        // console.log("API response:", data);
         // Handle the API response here
         this.handleResult(data);
       })
@@ -106,27 +78,13 @@ const getDataComponent = {
         // calculate dynamic scale based on distance
         // dynamic scaling
         const scaleVal = (data[i].distance * 100).toFixed(1);
-        let multiplier;
-
-        if (scaleVal < 10) {
-          multiplier = 1.35;
-        } else if (scaleVal < 30) {
-          multiplier = 1.2;
-        } else if (scaleVal < 60) {
-          multiplier = 1;
-        } else if (scaleVal < 100) {
-          multiplier = 0.8;
-        } else {
-          multiplier = 0.5;
-        }
-
-        const result = scaleVal * multiplier;
         // console.log("scaleVal:", scaleVal);
         // set threshold based on area distance data
         // threshold is set to 10 in this case
-        // const result = scaleVal >= 10 ? scaleVal / 2 : scaleVal;
+        const result = scaleVal >= 10 ? scaleVal / 2 : scaleVal;
         // const result = 5
         // console.log("result:", result);
+
         // create map-points
         const newEle = document.createElement("lightship-map-point");
         newEle.id = data[i].name;
@@ -167,33 +125,32 @@ const getDataComponent = {
 
         this.map.appendChild(newEle);
         console.log("tabs created");
+
+        // Add tab popup content
         const tabPopup = document.getElementById("tab-popup");
         const popImage = document.getElementById("popup-content-image");
         const popTitle = document.getElementById("pop-title");
         const popDistance = document.getElementById("pop-dist");
-        const popupCta = document.getElementById("popup-content-cta");
         const popDesc = document.getElementById("popup-content-desc");
         const activeTabs = document.querySelectorAll(".infoTab");
 
+        // Get index of the selected tab
         const findIndexByName = (name) => {
           return data.findIndex((obj) => obj.name_complete === name);
         };
+
+        // Click function for location tabs
         activeTabs.forEach((el) => {
           el.addEventListener("click", () => {
-            const index = findIndexByName(el.id);
+            const index = findIndexByName(el.id); // use the index to map respective tab content
             // console.log('tab clicked',index, data[index])
             popTitle.innerHTML = data[index].name_complete;
             popDesc.innerHTML = data[index].description;
             popDistance.innerHTML = `${data[index].distance.toFixed(1)} km`;
-            popImage.src = data[index].url_img_preview;
+            popImage.src = data[index].url_img;
             tabPopup.style.display = "flex";
             tabPopup.classList.add("fade-in");
             tabPopup.classList.remove("fade-out");
-
-            popupCta.addEventListener("click", () => {
-              window.location = data[index].url;
-              // console.log(data[index].url)
-            });
           });
         });
       } else {
