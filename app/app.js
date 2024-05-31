@@ -3,7 +3,7 @@
 // app.js is the main entry point for your 8th Wall app. Code here will execute after head.html
 // is loaded, and before body.html is loaded.
 
-import {compassComponent} from '././components/compass.js'
+import { compassComponent } from '././components/compass.js'
 AFRAME.registerComponent('compass', compassComponent)
 // Check Location Permissions at beginning of session
 const errorCallback = (error) => {
@@ -11,7 +11,7 @@ const errorCallback = (error) => {
     alert('LOCATION PERMISSIONS DENIED. PLEASE ALLOW AND TRY AGAIN.')
   }
 }
-navigator.geolocation.getCurrentPosition((pos) => {}, errorCallback)
+navigator.geolocation.getCurrentPosition((pos) => { }, errorCallback)
 
 import { handleScreenUIComponent } from "././components/handle-ui.js";
 AFRAME.registerComponent("handle-ui", handleScreenUIComponent);
@@ -38,66 +38,66 @@ AFRAME.registerComponent('no-cull', {
 })
 
 // rounded component
-AFRAME.registerComponent("rounded", {
+AFRAME.registerComponent('rounded', {
   schema: {
     enabled: { default: true },
-    width: { type: "number", default: 1 },
-    height: { type: "number", default: 1 },
-    radius: { type: "number", default: 0.3 },
-    topLeftRadius: { type: "number", default: -1 },
-    topRightRadius: { type: "number", default: -1 },
-    bottomLeftRadius: { type: "number", default: -1 },
-    bottomRightRadius: { type: "number", default: -1 },
-    color: { type: "color", default: "#F0F0F0" },
-    opacity: { type: "number", default: 1 },
+    width: { type: 'number', default: 1 },
+    height: { type: 'number', default: 1 },
+    radius: { type: 'number', default: 0.3 },
+    topLeftRadius: { type: 'number', default: -1 },
+    topRightRadius: { type: 'number', default: -1 },
+    bottomLeftRadius: { type: 'number', default: -1 },
+    bottomRightRadius: { type: 'number', default: -1 },
+    color: { type: 'color', default: '#F0F0F0' },
+    opacity: { type: 'number', default: 1 },
   },
-  init: function () {
+  init() {
     this.rounded = new THREE.Mesh(
       this.draw(),
       new THREE.MeshPhongMaterial({
         color: new THREE.Color(this.data.color),
         side: THREE.DoubleSide,
       })
-    );
-    this.updateOpacity();
-    this.el.setObject3D("mesh", this.rounded);
+    )
+    this.updateOpacity()
+    this.el.setObject3D('mesh', this.rounded)
   },
-  update: function () {
+  update() {
     if (this.data.enabled) {
       if (this.rounded) {
-        this.rounded.visible = true;
-        this.rounded.geometry = this.draw();
-        this.rounded.material.color = new THREE.Color(this.data.color);
-        this.updateOpacity();
+        this.rounded.visible = true
+        this.rounded.geometry = this.draw()
+        this.rounded.material.color = new THREE.Color(this.data.color)
+        this.updateOpacity()
       }
     } else {
-      this.rounded.visible = false;
+      this.rounded.visible = false
     }
   },
-  updateOpacity: function () {
+  updateOpacity() {
     if (this.data.opacity < 0) {
-      this.data.opacity = 0;
+      this.data.opacity = 0
     }
     if (this.data.opacity > 1) {
-      this.data.opacity = 1;
+      this.data.opacity = 1
     }
     if (this.data.opacity < 1) {
-      this.rounded.material.transparent = true;
+      this.rounded.material.transparent = true
     } else {
-      this.rounded.material.transparent = false;
+      this.rounded.material.transparent = false
     }
-    this.rounded.material.opacity = this.data.opacity;
+    this.rounded.material.opacity = this.data.opacity
   },
-  tick: function () {},
-  remove: function () {
+  tick() { },
+  remove() {
     if (!this.rounded) {
-      return;
+      return
     }
-    this.el.object3D.remove(this.rounded);
-    this.rounded = null;
+    this.el.object3D.remove(this.rounded)
+    this.rounded = null
   },
-  draw: function () {
-    var roundedRectShape = new THREE.Shape();
+  draw() {
+    const roundedRectShape = new THREE.Shape()
     function roundedRect(
       ctx,
       x,
@@ -110,50 +110,50 @@ AFRAME.registerComponent("rounded", {
       bottomRightRadius
     ) {
       if (!topLeftRadius) {
-        topLeftRadius = 0.00001;
+        topLeftRadius = 0.00001
       }
       if (!topRightRadius) {
-        topRightRadius = 0.00001;
+        topRightRadius = 0.00001
       }
       if (!bottomLeftRadius) {
-        bottomLeftRadius = 0.00001;
+        bottomLeftRadius = 0.00001
       }
       if (!bottomRightRadius) {
-        bottomRightRadius = 0.00001;
+        bottomRightRadius = 0.00001
       }
-      ctx.moveTo(x, y + topLeftRadius);
-      ctx.lineTo(x, y + height - topLeftRadius);
-      ctx.quadraticCurveTo(x, y + height, x + topLeftRadius, y + height);
-      ctx.lineTo(x + width - topRightRadius, y + height);
+      ctx.moveTo(x, y + topLeftRadius)
+      ctx.lineTo(x, y + height - topLeftRadius)
+      ctx.quadraticCurveTo(x, y + height, x + topLeftRadius, y + height)
+      ctx.lineTo(x + width - topRightRadius, y + height)
       ctx.quadraticCurveTo(
         x + width,
         y + height,
         x + width,
         y + height - topRightRadius
-      );
-      ctx.lineTo(x + width, y + bottomRightRadius);
-      ctx.quadraticCurveTo(x + width, y, x + width - bottomRightRadius, y);
-      ctx.lineTo(x + bottomLeftRadius, y);
-      ctx.quadraticCurveTo(x, y, x, y + bottomLeftRadius);
+      )
+      ctx.lineTo(x + width, y + bottomRightRadius)
+      ctx.quadraticCurveTo(x + width, y, x + width - bottomRightRadius, y)
+      ctx.lineTo(x + bottomLeftRadius, y)
+      ctx.quadraticCurveTo(x, y, x, y + bottomLeftRadius)
     }
 
-    var corners = [
+    const corners = [
       this.data.radius,
       this.data.radius,
       this.data.radius,
       this.data.radius,
-    ];
-    if (this.data.topLeftRadius != -1) {
-      corners[0] = this.data.topLeftRadius;
+    ]
+    if (this.data.topLeftRadius !== -1) {
+      corners[0] = this.data.topLeftRadius
     }
-    if (this.data.topRightRadius != -1) {
-      corners[1] = this.data.topRightRadius;
+    if (this.data.topRightRadius !== -1) {
+      corners[1] = this.data.topRightRadius
     }
-    if (this.data.bottomLeftRadius != -1) {
-      corners[2] = this.data.bottomLeftRadius;
+    if (this.data.bottomLeftRadius !== -1) {
+      corners[2] = this.data.bottomLeftRadius
     }
-    if (this.data.bottomRightRadius != -1) {
-      corners[3] = this.data.bottomRightRadius;
+    if (this.data.bottomRightRadius !== -1) {
+      corners[3] = this.data.bottomRightRadius
     }
 
     roundedRect(
@@ -166,27 +166,27 @@ AFRAME.registerComponent("rounded", {
       corners[1],
       corners[2],
       corners[3]
-    );
-    return new THREE.ShapeBufferGeometry(roundedRectShape);
+    )
+    return new THREE.ShapeBufferGeometry(roundedRectShape)
   },
-  pause: function () {},
-  play: function () {},
-});
+  pause() { },
+  play() { },
+})
 
-AFRAME.registerPrimitive("a-rounded", {
+AFRAME.registerPrimitive('a-rounded', {
   defaultComponents: {
     rounded: {},
   },
   mappings: {
-    enabled: "rounded.enabled",
-    width: "rounded.width",
-    height: "rounded.height",
-    radius: "rounded.radius",
-    "top-left-radius": "rounded.topLeftRadius",
-    "top-right-radius": "rounded.topRightRadius",
-    "bottom-left-radius": "rounded.bottomLeftRadius",
-    "bottom-right-radius": "rounded.bottomRightRadius",
-    color: "rounded.color",
-    opacity: "rounded.opacity",
+    'enabled': 'rounded.enabled',
+    'width': 'rounded.width',
+    'height': 'rounded.height',
+    'radius': 'rounded.radius',
+    'top-left-radius': 'rounded.topLeftRadius',
+    'top-right-radius': 'rounded.topRightRadius',
+    'bottom-left-radius': 'rounded.bottomLeftRadius',
+    'bottom-right-radius': 'rounded.bottomRightRadius',
+    'color': 'rounded.color',
+    'opacity': 'rounded.opacity',
   },
-});
+})
