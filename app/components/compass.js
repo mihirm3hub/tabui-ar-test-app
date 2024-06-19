@@ -9,7 +9,6 @@ const compassComponent = {
       navigator.userAgent.match(/(iPod|iPhone|iPad)/) &&
       navigator.userAgent.match(/AppleWebKit/);
 
-    let pointDegree;
     let compass;
     let rotation;
     let unset = false;
