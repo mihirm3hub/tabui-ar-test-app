@@ -5,12 +5,40 @@ const getDataComponent = {
   init() {
     this.array = [];
     this.distArray = [];
-
+    this.scaleArray = [];
+    this.sceneAssets = document.querySelector("a-assets");
     this.map = document.querySelector("lightship-map");
+    this.isPlaying = true;
+    this.isCreated = false;
 
+    if (!this.isPlaying) {
+      const video = document.querySelector("video");
+      const constraints = {
+        audio: false,
+        video: {
+          facingMode: "environment",
+        },
+      };
+
+      let streamStarted = false;
+      const handleStream = (stream) => {
+        video.srcObject = stream;
+        streamStarted = true;
+      };
+      navigator.mediaDevices.getUserMedia(constraints).then(
+        (stream) => handleStream(stream),
+        (err) => console.log(err)
+      );
+      console.log("clicked", streamStarted);
+      if (streamStarted) {
+        video.play();
+        this.isPlaying = true;
+      }
+    }
+    // console.log(this.map)
     if (navigator.geolocation) {
       // Geolocation API is supported
-      navigator.geolocation.watchPosition(
+      const watchId = navigator.geolocation.watchPosition(
         (position) => {
           // This function will be called whenever the position changes
           const { latitude } = position.coords;
@@ -47,7 +75,7 @@ const getDataComponent = {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log("API response:", data);
+        console.log("API response:", data);
         // Handle the API response here
         this.handleResult(data);
       })
@@ -72,19 +100,34 @@ const getDataComponent = {
         this.map.setAttribute("radius", `${radius}`);
 
         // create title and sub-title
-        const [location] = data[i].name.split("-");
+        const location = data[i].name_complete;
+        // const [location, city] = data[i].name.split("-");
         // console.log(location, city)
-
+        // const cityName = city !== undefined ? city : "NA";
         // calculate dynamic scale based on distance
         // dynamic scaling
         const scaleVal = (data[i].distance * 100).toFixed(1);
+        let multiplier;
+
+        if (scaleVal < 10) {
+          multiplier = 1.35;
+        } else if (scaleVal < 30) {
+          multiplier = 1.2;
+        } else if (scaleVal < 60) {
+          multiplier = 1;
+        } else if (scaleVal < 100) {
+          multiplier = 0.8;
+        } else {
+          multiplier = 0.5;
+        }
+
+        const result = scaleVal * multiplier;
         // console.log("scaleVal:", scaleVal);
         // set threshold based on area distance data
         // threshold is set to 10 in this case
-        const result = scaleVal >= 10 ? scaleVal / 2 : scaleVal;
+        // const result = scaleVal >= 10 ? scaleVal / 2 : scaleVal;
         // const result = 5
         // console.log("result:", result);
-
         // create map-points
         const newEle = document.createElement("lightship-map-point");
         newEle.id = data[i].name;
@@ -110,14 +153,21 @@ const getDataComponent = {
             shadow
           > 
             <a-image material="shader: flat; src: #test-image; alphaTest:0.03; side:double; transparent:true;" position="0 0 -0.01" width="5.55" height="2.25"></a-image>
-            <a-rounded position="-2.29 -0.78 0.02" scale="2.15 1.96 1" material="shader: flat; alphaTest:0.5; src: url(${data[i].url_img
-          })" crossorigin="Anonymous" width="0.8" height="0.8" radius="0.28" opacity="1"></a-rounded>
-            <a-entity text="value:${location}; color:#3B3A4C; anchor:align; letterSpacing:-2.5; wrapCount:18; zOffset:0.020; shader: msdf; font:https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/karla/Karla-Bold.json;" position="-0.45 -0.1 0" scale="2.5 2.5 2.5"></a-entity>     
-            <a-text id="${data[i].name}-distance" value="${data[
-            i
-          ].distance.toFixed(
-            1
-          )} km" position="1 -0.7 0.02" scale="1 0.9 1" letterSpacing="-2.5" color="#3B3A4C" shader="msdf" font="https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/karla/Karla-Bold.json"></a-text> 
+            <a-rounded position="-2.29 -0.78 0.02" scale="2.15 1.96 1" material="shader: flat; alphaTest:0.5; 
+              src: url(${data[i].url_img})" crossorigin="Anonymous" 
+              width="0.8" height="0.8" radius="0.28" opacity="1"
+            ></a-rounded>
+            <a-entity 
+              text="value:${location}; color:#3B3A4C; anchor:align; letterSpacing:-2.5; wrapCount:20; zOffset:0.020; shader: msdf; font:./components/Lexend-Regular-msdf.json; fontImage:https://cdn.glitch.global/8ae63d15-3d0c-4bfd-b44d-6bca726f4d53/Lexend-Regular.png; negate:false;" 
+              position="-0.45 0 0" 
+              scale="2.5 2.5 2.5">
+            </a-entity>
+            <a-text 
+              id="${data[i].name_complete}-distance"
+              value="${data[i].distance.toFixed(1)} km" 
+              position="1 -0.7 0.02" scale="1 0.9 1" letterSpacing="-2.5" color="#3B3A4C" 
+              shader="msdf" font="https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/karla/Karla-Bold.json"
+            ></a-text> 
             <a-image material="shader: flat; src: #icon-image; alphaTest:0.5; side:double; transparent:true;" position="1.85 -0.5 0.02" scale=".5 .5 .5" width="0.5" height="0.5"></a-image>
           </a-entity>
          `
@@ -125,45 +175,46 @@ const getDataComponent = {
 
         this.map.appendChild(newEle);
         console.log("tabs created");
-
-        // Add tab popup content
         const tabPopup = document.getElementById("tab-popup");
         const popImage = document.getElementById("popup-content-image");
         const popTitle = document.getElementById("pop-title");
         const popDistance = document.getElementById("pop-dist");
+        const popupCta = document.getElementById("popup-content-cta");
         const popDesc = document.getElementById("popup-content-desc");
         const activeTabs = document.querySelectorAll(".infoTab");
 
-        // Get index of the selected tab
         const findIndexByName = (name) => {
           return data.findIndex((obj) => obj.name_complete === name);
         };
-
-        // Click function for location tabs
         activeTabs.forEach((el) => {
           el.addEventListener("click", () => {
-            const index = findIndexByName(el.id); // use the index to map respective tab content
+            const index = findIndexByName(el.id);
             // console.log('tab clicked',index, data[index])
             popTitle.innerHTML = data[index].name_complete;
             popDesc.innerHTML = data[index].description;
             popDistance.innerHTML = `${data[index].distance.toFixed(1)} km`;
-            popImage.src = data[index].url_img;
+            popImage.src = data[index].url_img_preview;
             tabPopup.style.display = "flex";
             tabPopup.classList.add("fade-in");
             tabPopup.classList.remove("fade-out");
+
+            popupCta.addEventListener("click", () => {
+              window.location = data[index].url;
+              console.log(data[index].url);
+            });
           });
         });
       } else {
         console.log(this.array.includes(data[i].id));
       }
       // dynamic distance values
-      const tab = document.getElementById(`${data[i].name}-tab`);
+      const tab = document.getElementById(`${data[i].name_complete}`);
       if (tab) {
         document
-          .getElementById(`${data[i].name}-distance`)
+          .getElementById(`${data[i].name_complete}-distance`)
           .removeAttribute("value");
         document
-          .getElementById(`${data[i].name}-distance`)
+          .getElementById(`${data[i].name_complete}-distance`)
           .setAttribute("value", `${data[i].distance.toFixed(1)} km`);
       }
       if (i === data.length - 1) {
@@ -174,4 +225,3 @@ const getDataComponent = {
   },
 };
 export { getDataComponent };
-
