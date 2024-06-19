@@ -15,10 +15,10 @@ navigator.geolocation.getCurrentPosition((pos) => {
   // intentionally empty. Awaiting implementation of position handling.
 }, errorCallback)
 
-import { handleScreenUIComponent } from "././components/handle-ui.js";
+import { handleScreenUIComponent } from "./components/handle-ui.js";
 AFRAME.registerComponent("handle-ui", handleScreenUIComponent);
 
-import { getDataComponent } from "././components/get-data.js";
+import { getDataComponent } from "./components/get-data.js";
 AFRAME.registerComponent("get-data", getDataComponent);
 
 // bitmaps cause texture issues on iOS this workaround prevents black textures and crashes
@@ -99,6 +99,18 @@ AFRAME.registerComponent('rounded', {
   },
   draw() {
     const roundedRectShape = new THREE.Shape()
+    /*
+     * Draws a rounded rectangle on a canvas context.
+     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context to draw on.
+     * @param {number} x - The X coordinate of the rectangle's top left corner.
+     * @param {number} y - The Y coordinate of the rectangle's top left corner.
+     * @param {number} width - The width of the rectangle.
+     * @param {number} height - The height of the rectangle.
+     * @param {number} topLeftRadius - The radius of the top left corner.
+     * @param {number} topRightRadius - The radius of the top right corner.
+     * @param {number} bottomLeftRadius - The radius of the bottom left corner.
+     * @param {number} bottomRightRradius - The radius of the bottom right corner.
+     */
     function roundedRect(
       ctx,
       x,

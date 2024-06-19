@@ -11,7 +11,7 @@ export const handleSplashScreen = () => {
       window.navigator.maxTouchPoints > 1);
   if (IS_IOS) {
     const dismissLoadScreen = () => {
-      // setTimeout(() => {
+      // setTimeout(() => { 
       gradient.classList.add("fade-out");
       // }, 1500)
       setTimeout(() => {
@@ -31,6 +31,10 @@ export const handleSplashScreen = () => {
       });
     }
   } else {
+    /**
+     * Dismisses the loading screen by first fading it out, then completely hiding it. 
+     * Assumes global access to `gradient` and `isVisible` variables.
+     */
     const dismissLoadScreen = () => {
       setTimeout(() => {
         gradient.classList.add("fade-out");

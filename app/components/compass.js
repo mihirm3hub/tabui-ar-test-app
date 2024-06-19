@@ -1,6 +1,6 @@
 const compassComponent = {
   init() {
-    const doty = this.el;
+    const entity = this.el;
     const compassEl = document.querySelector(".compass");
     const startBtn = document.getElementById("startBtn");
     // const myPoint = document.querySelector('.my-point')
@@ -13,18 +13,25 @@ const compassComponent = {
     let rotation;
     let unset = false;
 
+    /* 
+     * Handles the device orientation event, updating the compass and entity's rotation.
+     * @param {Object} e - The event object from the device orientation event.
+     */
     function handler(e) {
       compass = e.webkitCompassHeading || Math.abs(e.alpha - 360);
       compassEl.style.transform = `rotate(${-compass}deg)`;
 
-      // rotate doty 180 degrees to face heading
+      // rotate entity 180 degrees to face heading
       if (!unset) {
         rotation = compass;
-        doty.setAttribute("rotation", `0  ${rotation} 0`);
+        entity.setAttribute("rotation", `0  ${rotation} 0`);
         unset = true;
       }
     }
 
+    /** 
+     * Requests permission for and starts the compass if on iOS, otherwise alerts the user.
+     */
     function startCompass() {
       if (isIOS) {
         DeviceOrientationEvent.requestPermission()
@@ -41,6 +48,9 @@ const compassComponent = {
       }
     }
 
+    /** 
+     * Initializes the compass functionality based on the device's capabilities.
+     */
     function start() {
       // navigator.geolocation.getCurrentPosition(locationHandler)
 

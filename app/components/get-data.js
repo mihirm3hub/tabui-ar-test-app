@@ -80,7 +80,7 @@ const getDataComponent = {
         // calculate dynamic scale based on distance
         // dynamic scaling
         const scaleVal = (data[i].distance * 100).toFixed(1);
-        let multiplier;
+        let multiplier = 0;
 
         if (scaleVal < 10) {
           multiplier = 1.35;
@@ -173,7 +173,7 @@ const getDataComponent = {
           });
         });
       } else {
-        console.log(this.array.includes(data[i].id));
+        // console.log(this.array.includes(data[i].id));
       }
       // dynamic distance values
       const tab = document.getElementById(`${data[i].name_complete}`);
