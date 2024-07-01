@@ -1,6 +1,7 @@
-# TabUI: Location Track AR 
+# TabUI: Location Track AR
 
-This Project is built using Vanilla Js, Three.Js, A-frame and 8thwall AR libraries. It utilizes Niantic Lightship Map module to map location tabs based on user co-ordinates. 
+This Project is built using Vanilla Js, Three.Js, A-frame and 8thwall AR libraries. It utilizes Niantic Lightship Map
+module to map location tabs based on user co-ordinates.
 You can upload assets like images or audio in `assets` to the left. The rest is up to you and your imagination.
 
 ## What's in this project?
