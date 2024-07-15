@@ -1,4 +1,4 @@
-import {handleCarousel} from "./handleSplashScreen.js";
+import {handleSplashScreen} from "./handleSplashScreen.js";
 
 const getDataComponent = {
     lastRequestTime: 0, // Track the time of the last request
@@ -10,29 +10,7 @@ const getDataComponent = {
         this.map = document.querySelector("lightship-map");
         this.isPlaying = true;
 
-        this.initializeVideoStream();
         this.initializeGeolocation();
-    },
-
-    initializeVideoStream() {
-        if (!this.isPlaying) {
-            const video = document.querySelector("video");
-            const constraints = {
-                audio: false,
-                video: {
-                    facingMode: "environment",
-                },
-            };
-
-            navigator.mediaDevices
-                .getUserMedia(constraints)
-                .then((stream) => {
-                    video.srcObject = stream;
-                    video.play();
-                    this.isPlaying = true;
-                })
-                .catch((err) => console.log(err));
-        }
     },
 
     initializeGeolocation() {
@@ -94,19 +72,15 @@ const getDataComponent = {
             }
         });
 
-        handleCarousel();
+        handleSplashScreen();
     },
 
     createMapPoint(item) {
         const {
-            id,
             name_complete,
             distance,
             position,
             url_img_new,
-            url_img_preview,
-            url,
-            description,
         } = item;
         const scaleVal = (distance * 100).toFixed(1);
         const result = this.calculateScale(scaleVal);
